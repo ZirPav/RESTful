@@ -1,7 +1,18 @@
 package web.dao;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import web.model.Role;
 
-public interface RoleDao extends JpaRepository<Role, Long> {
+import web.model.Role;
+import web.model.User;
+
+import java.util.List;
+
+public interface RoleDao {
+    List<Role> allRoles();
+
+    Role findById(Long id);
+
+    void deleteRole(Long id);
+
+    boolean saveRole(Role role);
+
 }
