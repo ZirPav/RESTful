@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>UserEdit</title>
 </head>
 
 <body>
@@ -13,19 +13,52 @@
 <div align="center">
     <h1>Edit User</h1>
 
-    <form action="/edit" th:object="${editUser}" th:action="${editUser.getId()}" method="post">
+    <form th:action="@{/admin/edit/${userEdit.getId()}}" th:object="${userEdit}"  method="post">
+
         <table>
-            <!--<tr><p>Id: <input th:type="number" th:value="*{id}"></p></tr>-->
-            <tr><p>First_Name: <input th:type="text" th:field="*{firstName}"></p></tr>
-            <tr><p>Last_Name: <input th:type="text" th:field="*{lastName}"></p></tr>
-            <tr><p>Age: <input th:type="number" th:field="*{age}"></p></tr>
-            <tr><p>Email: <input th:type="text" th:field="*{email}"></p></tr>
-            <tr><p>Action: <input th:type="submit" th:value="Edit"></p></tr>
+
+            <tr>
+                <p>Id: <input th:type="number" th:field="*{id}"></p>
+            </tr>
+
+            <tr>
+                <p>Nickname: <input th:type="text" th:field="*{nickname}"></p>
+            </tr>
+
+            <tr>
+                <p>First_Name: <input th:type="text" th:field="*{firstName}"></p>
+            </tr>
+
+            <tr>
+                <p>Last_Name: <input th:type="text" th:field="*{lastName}"></p>
+            </tr>
+
+            <tr>
+                <p>Age: <input th:type="number" th:field="*{age}"></p>
+            </tr>
+
+            <tr>
+                <p>Email: <input th:type="text" th:field="*{email}"></p>
+            </tr>
+
+            <tr>
+                <p>Password: <input th:type="password" th:field="*{password}"></p>
+            </tr>
+
+            <tr>
+                <p>Confirm_Password: <input th:type="password" th:field="*{confirmPassword}"></p>
+            </tr>
+
+            <tr>
+                <p>Action: <input th:type="submit" th:value="Edit"></p>
+            </tr>
+
         </table>
+
     </form>
 
-    <a th:href="@{/}">Return</a>
-
+    <h4><a th:href="@{/admin}">Return</a></h4>
+    <h4><a th:href="@{/logout}">Logout</a></h4>
 </div>
 
 </body>

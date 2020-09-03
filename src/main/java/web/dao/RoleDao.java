@@ -7,6 +7,7 @@ import web.model.User;
 import java.util.List;
 
 public interface RoleDao {
+
     List<Role> allRoles();
 
     Role findById(Long id);

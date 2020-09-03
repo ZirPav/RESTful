@@ -6,11 +6,10 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "t_role")
 public class Role implements GrantedAuthority {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")
@@ -29,12 +28,8 @@ public class Role implements GrantedAuthority {
         this.name = name;
     }
 
-    public Role(Long id, String name, Set<User> users) {
-        this.id = id;
-        this.name = name;
-        this.users = users;
-    }
 
+    //Возвращает имя роли
     @Override
     public String getAuthority() {
         return getName();

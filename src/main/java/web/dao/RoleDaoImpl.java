@@ -24,7 +24,9 @@ public class RoleDaoImpl implements RoleDao {
     @SuppressWarnings("unchecked")
     public List<Role> allRoles() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
         List<Role> roleList = entityManager.createQuery("from Role").getResultList();
+        entityManager.getTransaction().commit();
         entityManager.close();
         return roleList;
     }
@@ -44,6 +46,7 @@ public class RoleDaoImpl implements RoleDao {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         Role role = entityManager.find(Role.class, id);
+        entityManager.remove(role);
         entityManager.getTransaction().commit();
         entityManager.close();
     }

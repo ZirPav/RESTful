@@ -16,7 +16,7 @@ public interface UserDao {
 
     List<User> usergtList(Long idMin);
 
-    void edit(User user);
+    boolean edit(User user);
 
     User findByUserForNickname(String nickname);
 }

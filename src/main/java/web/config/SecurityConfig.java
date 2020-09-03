@@ -11,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import web.config.handler.LoginSuccessHandler;
 import web.service.UserService;
-import web.service.UserServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -25,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder(){
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder(12);
     }
 
@@ -36,32 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf()
-                .disable()
-                .authorizeRequests()
-                //Доступ только для не зарегистрированных пользователей
-                .antMatchers("/registration").not().fullyAuthenticated()
-                //Доступ только для пользователей с ролью Администратор
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/news").hasRole("USER")
-                //Доступ разрешен всем пользователей
-                .antMatchers("/", "/resources/**").permitAll()
-                //Все остальные страницы требуют аутентификации
-                .anyRequest().authenticated()
-                .and()
-                //Настройка для входа в систему
-                .formLogin()
-                .loginPage("/login")
-                //Перенарпавление на главную страницу после успешного входа
-                .defaultSuccessUrl("/")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll()
-                .logoutSuccessUrl("/");
 
-        /*http.formLogin()
+        http.formLogin()
                 // указываем страницу с формой логина
                 .loginPage("/login")
                 //указываем логику обработки при логине
@@ -69,8 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // указываем action с формы логина
                 .loginProcessingUrl("/login")
                 // Указываем параметры логина и пароля с формы логина
-                .usernameParameter("j_username")
-                .passwordParameter("j_password")
+                .usernameParameter("nickname")
+                .passwordParameter("password")
                 // даем доступ к форме логина всем
                 .permitAll();
 
@@ -81,16 +56,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 // указываем URL при удачном логауте
                 .logoutSuccessUrl("/login?logout")
-                //выклчаем кроссдоменную секьюрность (на этапе обучения неважна)
+                //выключаем кроссдоменную секьюрность (на этапе обучения неважна)
                 .and().csrf().disable();
 
         http
                 // делаем страницу регистрации недоступной для авторизированных пользователей
                 .authorizeRequests()
+                 .antMatchers("/registration").not().fullyAuthenticated()
                 //страницы аутентификаци доступна всем
                 .antMatchers("/login").anonymous()
                 // защищенные URL
-                .antMatchers("/hello").access("hasAnyRole('ADMIN')").anyRequest().authenticated();*/
+                .antMatchers("/admin").access("hasAnyRole('ROLE_ADMIN')").anyRequest().authenticated();
 
     }
 

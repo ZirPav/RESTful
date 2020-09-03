@@ -5,11 +5,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "t_user")
 public class User implements UserDetails {
 
     @Id
@@ -17,6 +18,7 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(name = "nickname")
+    @Size(min = 2, message = "Не меньше 5 знаков")
     private String nickname;
 
     @Column(name = "firstName")
@@ -32,37 +34,26 @@ public class User implements UserDetails {
     private String email;
 
     @Column(name = "password")
+    @Size(min = 2, message = "Не меньше 5 знаков")
     private String password;
 
     @Transient
     private String confirmPassword;
 
-    @ManyToMany
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
+
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
     public User(){
 
     }
 
-    public User(Long id, String nickname, String firstName, String lastName, int age, String email,
-                String password, String confirmPassword, Set<Role> roles) {
-        this.id = id;
-        this.nickname = nickname;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.age = age;
-        this.email = email;
-        this.password = password;
-        this.confirmPassword = confirmPassword;
-        this.roles = roles;
-    }
-
+    //Возвращает список ролей пользователя
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
     }
+
     @Override
     public String getPassword() {
         return password;

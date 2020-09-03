@@ -12,31 +12,37 @@
 
 <div align="center">
     <h1>Пользователи</h1>
-    <h3>
-        <a th:href="@{/add}">Add User</a>
-    </h3>
+
     <table border="1">
         <tr>
             <th>Id</th>
+            <th>Nickname</th>
             <th>First_Name</th>
             <th>Last_Name</th>
             <th>Age</th>
             <th>Email</th>
+            <th>Password</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
 
-        <tr th:each="user : ${listUsers}">
+        <tr th:each="user : ${allUsers}">
             <td th:utext="${user.getId()}"></td>
+            <td th:utext="${user.getNickname()}"></td>
             <td th:utext="${user.getFirstName()}"></td>
             <td th:utext="${user.getLastName()}"></td>
             <td th:utext="${user.getAge()}"></td>
             <td th:utext="${user.getEmail()}"></td>
-            <td><a th:href="@{/edit/{editId}(editId=${user.id})}">Edit</a></td>
-            <td><a th:href="@{/delete/{deleteId}(deleteId=${user.id})}">Delete</a></td>
+            <td th:utext="${user.getPassword()}"></td>
+            <td><a href="userEdit.html" th:href="@{/admin/edit/{editId}(editId=${user.id})}">Edit</a></td>
+            <td><a href="users.html" th:href="@{/admin/delete/{deleteId}(deleteId=${user.id})}">Delete</a></td>
         </tr>
     </table>
+    <h4><a th:href="@{/logout}">Logout</a></h4>
+    <h4><a th:href="@{/admin/add}">Add user</a></h4>
 </div>
+
+
 
 </body>
 </html>

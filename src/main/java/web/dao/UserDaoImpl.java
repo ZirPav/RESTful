@@ -8,7 +8,7 @@ import web.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,6 +23,13 @@ public class UserDaoImpl implements UserDao {
         this.entityManagerFactory = entityManagerFactory;
     }
 
+    private RoleDao roleDao;
+
+    @Autowired
+    public void setRoleDao(RoleDao roleDao) {
+        this.roleDao = roleDao;
+    }
+
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
@@ -34,7 +41,9 @@ public class UserDaoImpl implements UserDao {
     @SuppressWarnings("unchecked")
     public List<User> allUsers() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        List<User> userList = entityManager.createQuery("from User").getResultList();
+        entityManager.getTransaction().begin();
+        List<User> userList = entityManager.createQuery("SELECT u FROM User u").getResultList();
+        entityManager.getTransaction().commit();
         entityManager.close();
         return userList;
     }
@@ -62,12 +71,31 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean saveUser(User user) {
+    public User findByUserForNickname(String nickname) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        User userFromDb = findByUserForNickname(user.getNickname());
+        User user = null;
+        try {
+            Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.nickname=:nickname");
+            query.setParameter("nickname", nickname);
+            user = (User) query.getSingleResult();
+        } catch (Exception e) {
 
-        if (userFromDb != null) {
+        }
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return user;
+    }
+
+    @Override
+    public boolean saveUser(User user) {
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        User userFromDB = findByUserForNickname(user.getUsername());
+
+        if (userFromDB != null) {
             return false;
         }
 
@@ -78,31 +106,33 @@ public class UserDaoImpl implements UserDao {
         entityManager.getTransaction().commit();
         entityManager.close();
         return true;
+
     }
 
     @Override
     public List<User> usergtList(Long idMin) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        return entityManager.createQuery("SELECT u FROM User u WHERE u.id > :paramId", User.class)
-                .setParameter("paramId", idMin).getResultList();
-    }
-
-    @Override
-    public User findByUserForNickname(String nickname) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        User user = entityManager.find(User.class, nickname);
+        List<User> list = entityManager.createQuery("SELECT u FROM User u WHERE u.id > :paramId", User.class)
+                .setParameter("paramId", idMin).getResultList();
         entityManager.getTransaction().commit();
         entityManager.close();
-        return user;
+        return list;
     }
 
+
     @Override
-    public void edit(User user) {
+    public boolean edit(User user) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
+
+
+        user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
         entityManager.merge(user);
         entityManager.getTransaction().commit();
         entityManager.close();
+        return true;
     }
 }

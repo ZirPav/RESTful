@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.dao.RoleDao;
@@ -30,10 +31,18 @@ public class UserServiceImpl implements UserService {
         this.roleDao = roleDao;
     }
 
+
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    public void setbCryptPasswordEncoder(BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
+
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException {
-        User user = userDao.findByUserForNickname(nickname);
+        User user = findByUserForNickname(nickname);
         if (user == null) {
             System.err.println("User not found");
         }
@@ -41,17 +50,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public List<User> allUsers(){
+    public List<User> allUsers() {
         return userDao.allUsers();
     }
 
     @Transactional
-    public User findById(Long id){
+    public User findById(Long id) {
         return userDao.findById(id);
     }
 
     @Transactional
-    public void deleteUser(Long id){
+    public void deleteUser(Long id) {
         userDao.deleteUser(id);
     }
 
@@ -67,8 +76,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void edit(User user) {
-        userDao.edit(user);
+    public boolean edit(User user) {
+        return userDao.edit(user);
     }
 
     @Override
