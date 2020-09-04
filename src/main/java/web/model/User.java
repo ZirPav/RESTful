@@ -40,7 +40,6 @@ public class User implements UserDetails {
     @Transient
     private String confirmPassword;
 
-
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 

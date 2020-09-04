@@ -949,7 +949,6 @@ SELECT|sys.sys_config:null
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
-      <SequenceIdentity>null</SequenceIdentity>
     </column>
     <column id="299" parent="295" name="name">
       <Position>2</Position>

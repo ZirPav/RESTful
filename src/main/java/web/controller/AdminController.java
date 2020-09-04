@@ -5,10 +5,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import web.model.Role;
 import web.model.User;
 import web.service.UserService;
 
 import javax.validation.Valid;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 public class AdminController {
@@ -34,23 +37,25 @@ public class AdminController {
     @GetMapping("/admin/add")
     public String addUser(Model model) {
         model.addAttribute("addUser", new User());
+        model.addAttribute("allRoles", userService.allRoles());
         return "userAdd";
     }
 
     @PostMapping("/admin/add")
-    public String addUser(@ModelAttribute("addUser") @Valid User userForm, BindingResult bindingResult, Model model) {
+    public String addUser(@ModelAttribute("addUser")  User userForm,
+                          @RequestParam(value = "addRole", required = false)  String userRole,
+                          BindingResult bindingResult, Model model) {
 
-        if (bindingResult.hasErrors()) {
-            return "userAdd";
+        Set<Role> roleSet = new HashSet<>();
+        if (userRole.contains("USER")){
+            roleSet.add(new Role(1L, "USER"));
+            userForm.setRoles(roleSet);
         }
-        if (!userForm.getPassword().equals(userForm.getConfirmPassword())){
-            model.addAttribute("passwordError", "Пароли не совпадают");
-            return "userAdd";
+        if (userRole.contains("ADMIN")) {
+            roleSet.add(new Role(2L, "ADMIN"));
+            userForm.setRoles(roleSet);
         }
-        if (!userService.saveUser(userForm)){
-            model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
-            return "userAdd";
-        }
+        userService.saveUser(userForm);
 
         return "redirect:/admin";
     }
@@ -59,23 +64,26 @@ public class AdminController {
     public String editUser(@PathVariable("id") Long id, Model model) {
         User user = userService.findById(id);
         model.addAttribute("userEdit", user);
+        model.addAttribute("allRoles", userService.allRoles());
         return "userEdit";
     }
 
     @PostMapping("/admin/edit/{id}")
-    public String editUser(@ModelAttribute("userEdit") @Valid User user, BindingResult bindingResult, Model model) {
+    public String editUser(@ModelAttribute("userEdit") User user,
+                           @RequestParam(value = "editRole", required = false) String editRole,
+                           Model model) {
 
-        if (bindingResult.hasErrors()) {
-            return "userEdit";
+        Set<Role> roleSet = new HashSet<>();
+        if (editRole.contains("USER")){
+            roleSet.add(new Role(1L, "USER"));
+            user.setRoles(roleSet);
         }
-        if (!user.getPassword().equals(user.getConfirmPassword())){
-            model.addAttribute("passwordError", "Пароли не совпадают");
-            return "userEdit";
+        if (editRole.contains("ADMIN")) {
+            roleSet.add(new Role(2L, "ADMIN"));
+            user.setRoles(roleSet);
         }
-        if (!userService.edit(user)){
-            model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
-            return "userEdit";
-        }
+
+        userService.edit(user);
         return "redirect:/admin";
     }
 

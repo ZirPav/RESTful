@@ -8,57 +8,48 @@
 </head>
 <body>
 
-<div>
 
 <form th:action="@{/registration}" th:object="${userForm}" method="POST">
+    <h2>Register</h2>
+    <table>
+    <tr>
+        <td><label>Nickname</label></td>
+        <td><input th:type="text" th:field="*{nickname}"/></td>
+    </tr>
 
-    <h2>Регистрация</h2>
+    <tr>
+        <td><label>First_Name</label></td>
+        <td><input th:type="text" th:field="*{firstName}"/></td>
+    </tr>
 
-    <div>
-        <label>Nickname</label>
-        <input th:type="text" th:field="*{nickname}" />
-        <p th:each="error: ${#fields.errors('nickname')}"
-           th:text="${error}">Validation error</p>
+    <tr>
+        <td><label>Last_Name</label></td>
+        <td><input th:type="text" th:field="*{lastName}"/></td>
+    </tr>
 
-    </div>
+    <tr>
+        <td><label>Age</label></td>
+        <td><input th:type="number" th:field="*{age}"/></td>
+    </tr>
 
-    <div>
-        <label>First_Name</label>
-        <input th:type="text" th:field="*{firstName}"/>
-    </div>
+    <tr>
+        <td><label>Email</label></td>
+        <td><input th:type="text" th:field="*{email}"/></td>
+    </tr>
 
-    <div>
-        <label>Last_Name</label>
-        <input th:type="text" th:field="*{lastName}"/>
-    </div>
+    <tr>
+        <td><label>Password</label></td>
+        <td><input th:type="password" th:field="*{password}"/></td>
+    </tr>
 
-    <div>
-        <label>Age</label>
-        <input th:type="number" th:field="*{age}"/>
-    </div>
+    <tr>
+        <td><label>Confirm_Password</label></td>
+        <td><input th:type="password" th:field="*{confirmPassword}"/></td>
+    </tr>
+    </table>
 
-    <div>
-        <label>Email</label>
-        <input th:type="text" th:field="*{email}"/>
-    </div>
-
-    <div>
-        <label>Password</label>
-        <input th:type="password" th:field="*{password}"/>
-        <p th:each="error : ${#fields.errors('password')}"
-           th:text="${error}">Validation error</p>
-    </div>
-    <div>
-        <label>Confirm_Password</label>
-        <input th:type="password" th:field="*{confirmPassword}"/>
-    </div>
-
-    <button type="submit">Зарегистрироваться</button>
-
+    <button type="submit">Register</button>
 </form>
-</div>
-
 <a th:href="@{/login}">Return</a>
-
 </body>
 </html>

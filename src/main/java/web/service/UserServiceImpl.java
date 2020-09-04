@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.dao.RoleDao;
 import web.dao.UserDao;
+import web.model.Role;
 import web.model.User;
 
 import java.util.List;
@@ -59,6 +60,7 @@ public class UserServiceImpl implements UserService {
         return userDao.findById(id);
     }
 
+
     @Transactional
     public void deleteUser(Long id) {
         userDao.deleteUser(id);
@@ -85,5 +87,31 @@ public class UserServiceImpl implements UserService {
     public User findByUserForNickname(String nickname) {
         return userDao.findByUserForNickname(nickname);
     }
+
+
+    @Override
+    @Transactional
+    public List<Role> allRoles() {
+        return roleDao.allRoles();
+    }
+
+    @Override
+    @Transactional
+    public Role findByIdRole(Long id) {
+        return roleDao.findById(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteRole(Long id) {
+        roleDao.deleteRole(id);
+    }
+
+    @Override
+    @Transactional
+    public boolean saveRole(Role role) {
+        return roleDao.saveRole(role);
+    }
+
 
 }

@@ -11,6 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 
 @Repository
@@ -99,7 +100,8 @@ public class UserDaoImpl implements UserDao {
             return false;
         }
 
-        user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
+        Set<Role> roleSet = (Set<Role>) user.getAuthorities();
+        user.setRoles(roleSet);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
         entityManager.persist(user);
@@ -126,8 +128,8 @@ public class UserDaoImpl implements UserDao {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
 
-
-        user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
+        Set<Role> roleSet = (Set<Role>) user.getAuthorities();
+        user.setRoles(roleSet);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
         entityManager.merge(user);
