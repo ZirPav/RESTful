@@ -62,6 +62,7 @@
 
                 <td>
                     <input th:type="password" th:field="*{confirmPassword}">
+
                 </td>
 
                 <td>
@@ -78,7 +79,7 @@
                 </td>
 
             </tr>
-
+            <p th:text="${passwordError}"></p>
         </table>
     </form>
 

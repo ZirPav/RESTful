@@ -14,6 +14,7 @@
 
     <h2>Edit User</h2>
 
+
     <form th:action="@{/admin/edit/${userEdit.getId()}}" th:object="${userEdit}"  method="post">
 
         <table>
@@ -56,6 +57,7 @@
             <tr>
                 <td><label>Confirm_Password:</label></td>
                 <td><input th:type="password" th:field="*{confirmPassword}"></td>
+
             </tr>
 
             <tr>
@@ -73,7 +75,7 @@
                 <td><label>Action:</label></td>
                 <td><input th:type="submit" th:value="Edit"></td>
             </tr>
-
+            <p th:text="${passwordError}"></p>
         </table>
 
     </form>

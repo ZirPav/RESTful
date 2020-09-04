@@ -42,11 +42,20 @@ public class AdminController {
     }
 
     @PostMapping("/admin/add")
-    public String addUser(@ModelAttribute("addUser")  User userForm,
+    public String addUser(@ModelAttribute("addUser") @Valid User userForm,
                           @RequestParam(value = "addRole", required = false)  String userRole,
                           BindingResult bindingResult, Model model) {
+        model.addAttribute("allRoles", userService.allRoles());
+        if (bindingResult.hasErrors()) {
+            return "userAdd";
+        }
+        if (!userForm.getPassword().equals(userForm.getConfirmPassword())){
+            model.addAttribute("passwordError", "Пароли не совпадают");
+            return "userAdd";
+        }
 
         Set<Role> roleSet = new HashSet<>();
+
         if (userRole.contains("USER")){
             roleSet.add(new Role(1L, "USER"));
             userForm.setRoles(roleSet);
@@ -69,9 +78,17 @@ public class AdminController {
     }
 
     @PostMapping("/admin/edit/{id}")
-    public String editUser(@ModelAttribute("userEdit") User user,
+    public String editUser(@ModelAttribute("userEdit") @Valid User user,
                            @RequestParam(value = "editRole", required = false) String editRole,
-                           Model model) {
+                           BindingResult bindingResult, Model model) {
+        model.addAttribute("allRoles", userService.allRoles());
+        if (bindingResult.hasErrors()) {
+            return "userEdit";
+        }
+        if (!user.getPassword().equals(user.getConfirmPassword())){
+            model.addAttribute("passwordError", "Пароли не совпадают");
+            return "userEdit";
+        }
 
         Set<Role> roleSet = new HashSet<>();
         if (editRole.contains("USER")){

@@ -10,6 +10,7 @@
 
 
 <form th:action="@{/registration}" th:object="${userForm}" method="POST">
+
     <h2>Register</h2>
     <table>
     <tr>
@@ -46,6 +47,7 @@
         <td><label>Confirm_Password</label></td>
         <td><input th:type="password" th:field="*{confirmPassword}"/></td>
     </tr>
+        <p th:text="${passwordError}"></p>
     </table>
 
     <button type="submit">Register</button>
