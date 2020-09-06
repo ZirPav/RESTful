@@ -9,7 +9,6 @@ import web.model.Role;
 import web.model.User;
 import web.service.UserService;
 
-import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,7 +41,7 @@ public class AdminController {
     }
 
     @PostMapping("/admin/add")
-    public String addUser(@ModelAttribute("addUser") @Valid User userForm,
+    public String addUser(@ModelAttribute("addUser") User userForm,
                           @RequestParam(value = "addRole", required = false)  String userRole,
                           BindingResult bindingResult, Model model) {
         model.addAttribute("allRoles", userService.allRoles());
@@ -78,7 +77,7 @@ public class AdminController {
     }
 
     @PostMapping("/admin/edit/{id}")
-    public String editUser(@ModelAttribute("userEdit") @Valid User user,
+    public String editUser(@ModelAttribute("userEdit") User user,
                            @RequestParam(value = "editRole", required = false) String editRole,
                            BindingResult bindingResult, Model model) {
         model.addAttribute("allRoles", userService.allRoles());

@@ -9,10 +9,9 @@ import web.model.Role;
 import web.model.User;
 import web.service.UserService;
 
-import javax.validation.Valid;
+
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+
 
 
 @Controller
@@ -35,7 +34,7 @@ public class RegistrationController {
 	}
 
 	@PostMapping("/registration")
-	public String addUser(@ModelAttribute("userForm") @Valid User userForm,
+	public String addUser(@ModelAttribute("userForm") User userForm,
 						  BindingResult bindingResult, Model model) {
 
 		if (bindingResult.hasErrors()) {
