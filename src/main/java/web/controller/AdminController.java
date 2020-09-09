@@ -1,14 +1,15 @@
 package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import web.model.Role;
 import web.model.User;
 import web.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,29 +30,22 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String userList(Model model) {
-        model.addAttribute("allUsers", userService.allUsers());
-        return "users";
-    }
 
-    @GetMapping("/admin/add")
-    public String addUser(Model model) {
-        model.addAttribute("addUser", new User());
+        model.addAttribute("allUsers", userService.allUsers());
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("currentUser", currentUser);
         model.addAttribute("allRoles", userService.allRoles());
-        return "userAdd";
+        model.addAttribute("addUser", new User());
+
+        return "users";
     }
 
     @PostMapping("/admin/add")
     public String addUser(@ModelAttribute("addUser") User userForm,
                           @RequestParam(value = "addRole", required = false)  String userRole,
-                          BindingResult bindingResult, Model model) {
+                          Model model) {
+
         model.addAttribute("allRoles", userService.allRoles());
-        if (bindingResult.hasErrors()) {
-            return "userAdd";
-        }
-        if (!userForm.getPassword().equals(userForm.getConfirmPassword())){
-            model.addAttribute("passwordError", "Пароли не совпадают");
-            return "userAdd";
-        }
 
         Set<Role> roleSet = new HashSet<>();
 
@@ -73,21 +67,39 @@ public class AdminController {
         User user = userService.findById(id);
         model.addAttribute("userEdit", user);
         model.addAttribute("allRoles", userService.allRoles());
-        return "userEdit";
+        return "users";
     }
 
-    @PostMapping("/admin/edit/{id}")
-    public String editUser(@ModelAttribute("userEdit") User user,
+    /*@ModelAttribute("userEdit") User user,*/
+    @PostMapping("/admin/edit")
+    public String editUser(
+            @RequestParam(value = "idEdit", required = false) Long id,
+                           @RequestParam(value = "firstNameEdit", required = false) String firstNameEdit,
+                           @RequestParam(value = "lastNameEdit", required = false) String lastNameEdit,
+                           @RequestParam(value = "ageEdit", required = false) int ageEdit,
+                           @RequestParam(value = "emailEdit", required = false) String emailEdit,
+                           @RequestParam(value = "passwordEdit", required = false) String passwordEdit,
                            @RequestParam(value = "editRole", required = false) String editRole,
-                           BindingResult bindingResult, Model model) {
+                           Model model) {
+
         model.addAttribute("allRoles", userService.allRoles());
-        if (bindingResult.hasErrors()) {
-            return "userEdit";
+
+        User user = userService.findById(id);
+
+        user.setFirstName(firstNameEdit);
+
+        user.setLastName(lastNameEdit);
+
+        user.setAge(ageEdit);
+
+        user.setEmail(emailEdit);
+
+        if (passwordEdit == null){
+            user.setPassword(user.getPassword());
+        } else {
+            user.setPassword(passwordEdit);
         }
-        if (!user.getPassword().equals(user.getConfirmPassword())){
-            model.addAttribute("passwordError", "Пароли не совпадают");
-            return "userEdit";
-        }
+
 
         Set<Role> roleSet = new HashSet<>();
         if (editRole.contains("USER")){
@@ -98,7 +110,6 @@ public class AdminController {
             roleSet.add(new Role(2L, "ADMIN"));
             user.setRoles(roleSet);
         }
-
         userService.edit(user);
         return "redirect:/admin";
     }

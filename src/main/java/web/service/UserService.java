@@ -20,7 +20,7 @@ public interface UserService extends UserDetailsService {
 
     boolean edit(User user);
 
-    User findByUserForNickname(String nickname);
+    User findByUserForEmail(String email);
 
     List<Role> allRoles();
 

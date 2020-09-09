@@ -16,9 +16,6 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nickname")
-    private String nickname;
-
     @Column(name = "firstName")
     private String firstName;
 
@@ -57,7 +54,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return nickname;
+        return email;
     }
 
     @Override
@@ -88,13 +85,6 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -153,7 +143,6 @@ public class User implements UserDetails {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", nickname='" + nickname + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", age=" + age +

@@ -35,15 +35,8 @@ public class RegistrationController {
 
 	@PostMapping("/registration")
 	public String addUser(@ModelAttribute("userForm") User userForm,
-						  BindingResult bindingResult, Model model) {
+						  Model model) {
 
-		if (bindingResult.hasErrors()) {
-			return "registration";
-		}
-		if (!userForm.getPassword().equals(userForm.getConfirmPassword())){
-			model.addAttribute("passwordError", "Пароли не совпадают");
-			return "registration";
-		}
 		
 		userForm.setRoles(Collections.singleton(new Role(1L, "USER")));
 		userService.saveUser(userForm);

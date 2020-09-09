@@ -41,11 +41,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException {
-        User user = findByUserForNickname(nickname);
-        if (user == null) {
-            System.err.println("User not found");
-        }
+    public UserDetails loadUserByUsername(String signIn) throws UsernameNotFoundException {
+        User user = findByUserForEmail(signIn);
+            if (user == null){
+                System.err.println("User not found");
+            }
         return user;
     }
 
@@ -81,12 +81,12 @@ public class UserServiceImpl implements UserService {
         return userDao.edit(user);
     }
 
+
     @Override
     @Transactional
-    public User findByUserForNickname(String nickname) {
-        return userDao.findByUserForNickname(nickname);
+    public User findByUserForEmail(String email) {
+        return userDao.findByUserForEmail(email);
     }
-
 
     @Override
     @Transactional

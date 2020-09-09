@@ -9,7 +9,6 @@ import web.model.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -71,14 +70,15 @@ public class UserDaoImpl implements UserDao {
         entityManager.close();
     }
 
+
     @Override
-    public User findByUserForNickname(String nickname) {
+    public User findByUserForEmail(String email) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         User user = null;
         try {
-            Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.nickname=:nickname");
-            query.setParameter("nickname", nickname);
+            Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.email=:email");
+            query.setParameter("email", email);
             user = (User) query.getSingleResult();
         } catch (Exception e) {
 
@@ -94,7 +94,7 @@ public class UserDaoImpl implements UserDao {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
 
-        User userFromDB = findByUserForNickname(user.getUsername());
+        User userFromDB = findByUserForEmail(user.getUsername());
 
         if (userFromDB != null) {
             return false;

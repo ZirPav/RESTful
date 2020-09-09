@@ -18,5 +18,5 @@ public interface UserDao {
 
     boolean edit(User user);
 
-    User findByUserForNickname(String nickname);
+    User findByUserForEmail(String email);
 }
