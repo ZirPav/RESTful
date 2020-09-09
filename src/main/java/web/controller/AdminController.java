@@ -70,10 +70,8 @@ public class AdminController {
         return "users";
     }
 
-    /*@ModelAttribute("userEdit") User user,*/
     @PostMapping("/admin/edit")
-    public String editUser(
-            @RequestParam(value = "idEdit", required = false) Long id,
+    public String editUser(@RequestParam(value = "idEdit", required = false) Long id,
                            @RequestParam(value = "firstNameEdit", required = false) String firstNameEdit,
                            @RequestParam(value = "lastNameEdit", required = false) String lastNameEdit,
                            @RequestParam(value = "ageEdit", required = false) int ageEdit,
@@ -83,15 +81,10 @@ public class AdminController {
                            Model model) {
 
         model.addAttribute("allRoles", userService.allRoles());
-
         User user = userService.findById(id);
-
         user.setFirstName(firstNameEdit);
-
         user.setLastName(lastNameEdit);
-
         user.setAge(ageEdit);
-
         user.setEmail(emailEdit);
 
         if (passwordEdit == null){
@@ -99,7 +92,6 @@ public class AdminController {
         } else {
             user.setPassword(passwordEdit);
         }
-
 
         Set<Role> roleSet = new HashSet<>();
         if (editRole.contains("USER")){
@@ -114,15 +106,17 @@ public class AdminController {
         return "redirect:/admin";
     }
 
+
+    @PostMapping("/admin/delete")
+    public String deleteUser(@RequestParam(value = "idDelete", required = false) Long id) {
+        User user = userService.findById(id);
+        userService.deleteUser(user.getId());
+        return "redirect:/admin";
+    }
+
     @GetMapping("/admin/gt/{userId}")
     public String gtUser(@PathVariable("userId") Long userId, Model model) {
         model.addAttribute("allUsers", userService.usergtList(userId));
         return "users";
-    }
-
-    @GetMapping("/admin/delete/{id}")
-    public String deleteUser(@PathVariable("id") Long id, Model model) {
-        userService.deleteUser(id);
-        return "redirect:/admin";
     }
 }
