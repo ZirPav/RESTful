@@ -30,12 +30,6 @@ public class UserDaoImpl implements UserDao {
         this.roleDao = roleDao;
     }
 
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    @Autowired
-    public void setBCryptPasswordEncoder(BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
 
     @Override
     @SuppressWarnings("unchecked")
@@ -90,20 +84,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean saveUser(User user) {
-
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-
-        User userFromDB = findByUserForEmail(user.getUsername());
-
-        if (userFromDB != null) {
-            return false;
-        }
-
-        Set<Role> roleSet = (Set<Role>) user.getAuthorities();
-        user.setRoles(roleSet);
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-
         entityManager.persist(user);
         entityManager.getTransaction().commit();
         entityManager.close();
@@ -127,11 +109,6 @@ public class UserDaoImpl implements UserDao {
     public boolean edit(User user) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-
-        Set<Role> roleSet = (Set<Role>) user.getAuthorities();
-        user.setRoles(roleSet);
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-
         entityManager.merge(user);
         entityManager.getTransaction().commit();
         entityManager.close();

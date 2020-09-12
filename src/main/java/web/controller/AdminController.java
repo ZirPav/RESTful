@@ -28,6 +28,11 @@ public class AdminController {
         return "login";
     }
 
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
     @GetMapping("/admin")
     public String userList(Model model) {
 

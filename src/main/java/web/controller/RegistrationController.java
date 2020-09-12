@@ -27,7 +27,6 @@ public class RegistrationController {
 
 	@GetMapping("/registration")
 	public String registration(Model model) {
-
 		model.addAttribute("userForm", new User());
 		model.addAttribute("userRoles", userService.allRoles());
 		return "registration";
@@ -36,8 +35,6 @@ public class RegistrationController {
 	@PostMapping("/registration")
 	public String addUser(@ModelAttribute("userForm") User userForm,
 						  Model model) {
-
-		
 		userForm.setRoles(Collections.singleton(new Role(1L, "USER")));
 		userService.saveUser(userForm);
 		return "redirect:/login";

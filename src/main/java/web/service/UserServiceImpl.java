@@ -12,6 +12,7 @@ import web.model.Role;
 import web.model.User;
 
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -31,7 +32,6 @@ public class UserServiceImpl implements UserService {
         this.roleDao = roleDao;
     }
 
-
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String signIn) throws UsernameNotFoundException {
-        User user = findByUserForEmail(signIn);
+        User user = userDao.findByUserForEmail(signIn);
             if (user == null){
                 System.err.println("User not found");
             }
@@ -59,7 +59,6 @@ public class UserServiceImpl implements UserService {
         return userDao.findById(id);
     }
 
-
     @Transactional
     public void deleteUser(Long id) {
         userDao.deleteUser(id);
@@ -67,7 +66,23 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public boolean saveUser(User user) {
+        User userFromDB = userDao.findByUserForEmail(user.getUsername());
+        if (userFromDB != null) {
+            return false;
+        }
+        Set<Role> roleSet = (Set<Role>) user.getAuthorities();
+        user.setRoles(roleSet);
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userDao.saveUser(user);
+    }
+
+    @Override
+    @Transactional
+    public boolean edit(User user) {
+        Set<Role> roleSet = (Set<Role>) user.getAuthorities();
+        user.setRoles(roleSet);
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        return userDao.edit(user);
     }
 
     @Transactional
@@ -75,19 +90,7 @@ public class UserServiceImpl implements UserService {
         return userDao.usergtList(idMin);
     }
 
-    @Override
-    @Transactional
-    public boolean edit(User user) {
-        return userDao.edit(user);
-    }
-
-
-    @Override
-    @Transactional
-    public User findByUserForEmail(String email) {
-        return userDao.findByUserForEmail(email);
-    }
-
+    /*методы для Роли*/
     @Override
     @Transactional
     public List<Role> allRoles() {
@@ -111,6 +114,5 @@ public class UserServiceImpl implements UserService {
     public boolean saveRole(Role role) {
         return roleDao.saveRole(role);
     }
-
 
 }
