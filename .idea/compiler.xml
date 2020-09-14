@@ -6,16 +6,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="spring-security" />
+        <module name="restful" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="spring-security" target="1.8" />
+      <module name="restful" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="spring-security" options="-parameters" />
+      <module name="restful" options="-parameters" />
     </option>
   </component>
 </project>

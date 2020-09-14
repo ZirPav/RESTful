@@ -11,12 +11,16 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <title>CurrentUser</title>
+
+    <script src="/getuser.js"></script>
 </head>
 
 <body>
 <header>
     <nav class="navbar navbar-dark bg-dark flex-md-nowrap p-1 shadow">
-        <span class="navbar-text col-md-10" style="color: white" th:text="${userData.email} + ' with roles: ' + ${#strings.arrayJoin(userData.roles, ' ')}"></span>
+<!-- th:text="${userData.email} + ' with roles: ' + ${#strings.arrayJoin(userData.roles, ' ')}"-->
+        <span id="spanHeader" class="navbar-text col-md-10" style="color: white"></span>
+
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
                 <a class="nav-link" th:href="@{/logout}">Logout</a>
@@ -58,15 +62,8 @@
                                             <th>Role</th>
                                         </tr>
                                         </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td th:utext="${userData.id}"></td>
-                                            <td th:utext="${userData.firstName}"></td>
-                                            <td th:utext="${userData.lastName}"></td>
-                                            <td th:utext="${userData.age}"></td>
-                                            <td th:utext="${userData.email}"></td>
-                                            <td th:utext="${#strings.arrayJoin(userData.roles, ' ')}"></td>
-                                        </tr>
+                                        <tbody id="bodyUser">
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -76,10 +73,7 @@
                 </div>
             </div>
         </div>
-
 </main>
 
-<footer>
-</footer>
 </body>
 </html>
