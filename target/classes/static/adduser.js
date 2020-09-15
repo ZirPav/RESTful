@@ -8,7 +8,8 @@ function addNewUser(e){
     let age = document.getElementById('ageNewUser').value;
     let email = document.getElementById('emailNewUser').value;
     let password = document.getElementById('passwordNewUser').value;
-    let roles = document.getElementById('roleNewUser').value;
+    let roles = setRoles(Array.from(document.getElementById('roleNewUser').selectedOptions)
+        .map(option => option.value));
 
     fetch('http://localhost:8080/addUser', {
         method: 'POST',
@@ -26,5 +27,21 @@ function addNewUser(e){
         })
     })
         .then((res) => res.json())
+        .finally(() => {
+            document.getElementById('idUsersTable').click();
+            getUsers();
+            document.getElementById('addFormNewUser').reset();
+        })
+}
+
+function setRoles(someRoles) {
+    let roles = [];
+    if (someRoles.indexOf('USER') >= 0) {
+        roles.push({'id': 1, 'name': 'USER'});
+    }
+    if (someRoles.indexOf('ADMIN') >= 0) {
+        roles.push({'id': 2, 'name': 'ADMIN'});
+    }
+    return roles;
 }
 

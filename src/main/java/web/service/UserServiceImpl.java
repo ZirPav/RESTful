@@ -10,7 +10,6 @@ import web.dao.RoleDao;
 import web.dao.UserDao;
 import web.model.Role;
 import web.model.User;
-
 import java.util.List;
 import java.util.Set;
 

@@ -19,7 +19,6 @@ public class RoleDaoImpl implements RoleDao {
         this.entityManagerFactory = entityManagerFactory;
     }
 
-
     @Override
     @SuppressWarnings("unchecked")
     public List<Role> allRoles() {

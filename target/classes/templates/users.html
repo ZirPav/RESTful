@@ -19,9 +19,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="TitleModalLabel">Edit user</h5>
+
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
+
+
             </div>
 
             <div class="modal-body text-center">
@@ -75,9 +78,6 @@
                             <label for="roleEditUser">Role</label>
                             <div>
                                 <select name="editRole" size="2" multiple class="form-control" id="roleEditUser">
-                                    <option th:each="role : ${allRoles}"
-                                            th:value="${role}"
-                                            th:text="${role.name}"></option>
                                 </select>
                             </div>
                         </div>
@@ -154,9 +154,6 @@
                             <label for="roleDeleteUser">Role</label>
                             <div>
                                 <select class="form-control" size="2" readonly name="deleteRole" id="roleDeleteUser">
-                                    <option th:each="role : ${allRoles}"
-                                            th:value="${role}"
-                                            th:text="${role.name}"></option>
                                 </select>
                             </div>
                         </div>
@@ -187,7 +184,6 @@
 </header>
 
 <main>
-
 
     <div class="container-fluid">
 
@@ -223,7 +219,7 @@
                         <!--Навигация юзер тейбл/адд юзер-->
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#UsersTable">Users table</a>
+                                <a class="nav-link active" data-toggle="tab" href="#UsersTable" id="idUsersTable">Users table</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#NewUser">New User</a>
@@ -347,6 +343,8 @@
     </div>
 </main>
 
+
+
 <!-- JS, Popper.js, and jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -357,9 +355,14 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
+
 <script src="/getuser.js"></script>
 <script src="/getallusers.js"></script>
 <script src="/getallroles.js"></script>
 <script src="/adduser.js"></script>
+<script src="/modalEditDelete.js"></script>
+
+<script src="/inputusermodaledit.js"></script>
+
 </body>
 </html>

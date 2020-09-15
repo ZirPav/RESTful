@@ -9,6 +9,8 @@ function getRoles() {
           `;
             });
             document.getElementById('roleNewUser').innerHTML = output;
+            document.getElementById('roleEditUser').innerHTML = output;
+            document.getElementById('roleDeleteUser').innerHTML = output;
         })
 }
 
