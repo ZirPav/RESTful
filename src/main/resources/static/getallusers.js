@@ -22,13 +22,13 @@ function getUsers() {
                 <td>
                 <a class="btn btn-info" role="button"
                 data-toggle="modal" data-target="#modalEdit" id="callModalEdit"
-                onclick="openModalWindow(${user.id})">Edit</a>   
-                          
+                onclick="openModalWindow(${user.id})">Edit</a>        
                 </td>
 
                 <td>
                 <a class="btn btn-danger" role="button"
-                data-toggle="modal" data-target="#modalDelete" id="delete-post">Delete</a>
+                data-toggle="modal" data-target="#modalDelete" id="delete-post"
+                onclick="openModalWindowDel(${user.id})">Delete</a>
                 </td>
               </tr>
               

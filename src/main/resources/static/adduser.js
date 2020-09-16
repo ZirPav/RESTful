@@ -26,7 +26,6 @@ function addNewUser(e){
             roles: roles
         })
     })
-        .then((res) => res.json())
         .finally(() => {
             document.getElementById('idUsersTable').click();
             getUsers();

@@ -55,7 +55,7 @@ public class AllRestController {
     public ResponseEntity<?> editUser(@RequestBody User user) {
         User userOld = userService.findById(user.getId());
 
-        if (user.getPassword() == null){
+        if (user.getPassword().isEmpty()){
             user.setPassword(userOld.getPassword());
         }
 
