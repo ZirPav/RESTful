@@ -4,15 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import web.model.Role;
 import web.model.User;
 import web.service.UserService;
-
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 @RestController
 public class AllRestController {
@@ -53,11 +50,7 @@ public class AllRestController {
 
     @PutMapping("/userEdit")
     public ResponseEntity<?> editUser(@RequestBody User user) {
-        User userOld = userService.findById(user.getId());
 
-        if (user.getPassword().isEmpty()){
-            user.setPassword(userOld.getPassword());
-        }
 
         userService.edit(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -74,5 +67,4 @@ public class AllRestController {
     public User findUserById(@PathVariable(name = "id") Long id){
         return userService.findById(id);
     }
-
 }

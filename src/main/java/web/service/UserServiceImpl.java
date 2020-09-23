@@ -65,7 +65,9 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public boolean saveUser(User user) {
+
         User userFromDB = userDao.findByUserForEmail(user.getUsername());
+
         if (userFromDB != null) {
             return false;
         }
@@ -78,9 +80,17 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public boolean edit(User user) {
+
+        User userOld = userDao.findById(user.getId());
+
+        if (user.getPassword().isEmpty()){
+            user.setPassword(userOld.getPassword());
+        } else {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        }
+
         Set<Role> roleSet = (Set<Role>) user.getAuthorities();
         user.setRoles(roleSet);
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userDao.edit(user);
     }
 

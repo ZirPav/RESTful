@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>CurrentUser</title>
+
+    <script src="/getuser.js"></script>
+</head>
+
+<body>
+<header>
+    <nav class="navbar navbar-dark bg-dark flex-md-nowrap p-1 shadow">
+        <span id="spanHeader" class="navbar-text col-md-10" style="color: white"></span>
+
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" th:href="@{/logout}">Logout</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+<main>
+        <div class="row">
+            <div class="col-md-2" style="margin-top:20px; height: 100vh">
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#User">
+                            User
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-md-10 bg-light" style="margin-top:25px; height: 100vh">
+                <div class="tab-content">
+                    <!--Таба юзера-->
+                    <div class="tab-pane fade show active" id="User">
+                        <div class="container-fluid">
+                            <h2 class="h2">User information-page</h2>
+                            <div class="card">
+                                <h5 class="card-header">About user</h5>
+                                <div class="card-body">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Age</th>
+                                            <th>Email</th>
+                                            <th>Role</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="bodyUser">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</main>
+
+</body>
+</html>

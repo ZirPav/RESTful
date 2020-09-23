@@ -17,8 +17,7 @@ function getUsers() {
                 <td id="userLastNameGod-${user.id}">${user.lastName}</td>
                 <td id="userAgeGod-${user.id}">${user.age}</td>
                 <td id="userEmailGod-${user.id}">${user.email}</td>
-                <td id="userRolesGod-${user.id}">${userRoles}</td>
-                                                
+                <td id="userRolesGod-${user.id}">${userRoles}</td>                           
                 <td>
                 <a class="btn btn-info" role="button"
                 data-toggle="modal" data-target="#modalEdit" id="callModalEdit"

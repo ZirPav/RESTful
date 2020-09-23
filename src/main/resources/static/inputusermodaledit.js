@@ -14,6 +14,7 @@ function openModalWindowDel(id) {
         document.getElementById("ageDeleteUser").value = $('#userAgeGod-' + id).text();
         document.getElementById("emailDeleteUser").value = $('#userEmailGod-' + id).text();
         document.getElementById("passwordDeleteUser").value = "";
+
 }
 
 
